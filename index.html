@@ -27,13 +27,138 @@
 
         // [Previous React component code remains the same]
         // (Copy the entire component from the previous artifact)
+ const renderRoomBooking = () => (
+    <div className="space-y-4">
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-bold">Room Booking & Status</h2>
+        <button className="bg-blue-500 text-white px-4 py-2 rounded">
+          Add New Room
+        </button>
+      </div>
+      <table className="w-full border-collapse">
+        <thead className="bg-gray-100">
+          <tr>
+            <th className="p-2 border">Room Number</th>
+            <th className="p-2 border">Room Type</th>
+            <th className="p-2 border">Status</th>
+            <th className="p-2 border">Current Tenant</th>
+            <th className="p-2 border">Monthly Rent</th>
+            <th className="p-2 border">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rooms.map((room) => (
+            <tr key={room.id}>
+              <td className="p-2 border">{room.number}</td>
+              <td className="p-2 border">{room.type}</td>
+              <td className="p-2 border">
+                <span className={`px-2 py-1 rounded-full ${
+                  room.status === 'Occupied' ? 'bg-green-200 text-green-800' :
+                  room.status === 'Available' ? 'bg-blue-200 text-blue-800' :
+                  'bg-yellow-200 text-yellow-800'
+                }`}>
+                  {room.status}
+                </span>
+              </td>
+              <td className="p-2 border">{room.tenant}</td>
+              <td className="p-2 border">{room.rent}</td>
+              <td className="p-2 border">
+                <button className="text-blue-500 mr-2">
+                  {room.status === 'Available' ? 'Book' : 'Details'}
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-        return (
-            <div className="flex h-screen bg-gray-100">
-                {/* Sidebar and Main Content remain the same as in previous artifact */}
-            </div>
-        );
-    };
+      <div className="mt-6">
+        <h3 className="text-lg font-semibold mb-4">Room Booking Form</h3>
+        <form className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block mb-2">Room Number</label>
+            <input 
+              type="text" 
+              className="w-full p-2 border rounded" 
+              placeholder="Enter Room Number" 
+            />
+          </div>
+          <div>
+            <label className="block mb-2">Room Type</label>
+            <select className="w-full p-2 border rounded">
+              <option>Single</option>
+              <option>Double</option>
+              <option>Suite</option>
+            </select>
+          </div>
+          <div>
+            <label className="block mb-2">Monthly Rent</label>
+            <input 
+              type="text" 
+              className="w-full p-2 border rounded" 
+              placeholder="Enter Rent Amount" 
+            />
+          </div>
+          <div>
+            <label className="block mb-2">Tenant Name</label>
+            <input 
+              type="text" 
+              className="w-full p-2 border rounded" 
+              placeholder="Enter Tenant Name" 
+            />
+          </div>
+          <div className="col-span-2">
+            <button className="bg-green-500 text-white px-4 py-2 rounded">
+              Book Room
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+
+  const renderContent = () => {
+    switch(activeTab) {
+      case 'roomBooking': return renderRoomBooking();
+      default: return renderRoomBooking();
+    }
+  };
+
+  return (
+    <div className="flex h-screen bg-gray-100">
+      {/* Sidebar */}
+      <div className="w-64 bg-white shadow-md">
+        <div className="p-4 text-center bg-blue-600 text-white">
+          <h1 className="text-xl font-bold">Rental Manager</h1>
+        </div>
+        <nav className="p-4">
+          <ul className="space-y-2">
+            <li>
+              <button 
+                onClick={() => setActiveTab('roomBooking')}
+                className={`w-full text-left p-2 rounded ${
+                  activeTab === 'roomBooking' ? 'bg-blue-100 text-blue-600' : 'hover:bg-gray-100'
+                }`}
+              >
+                <Key className="inline-block mr-2" /> Room Booking
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      {/* Main Content Area */}
+      <div className="flex-1 p-6 overflow-y-auto">
+        <div className="bg-white rounded-lg shadow-md p-6">
+          {renderContent()}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default HouseRentalManagementSystem;
+        
 
     ReactDOM.render(<HouseRentalManagementSystem />, document.getElementById('root'));
     </script>
